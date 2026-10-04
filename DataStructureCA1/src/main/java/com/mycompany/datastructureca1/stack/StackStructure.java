@@ -33,5 +33,21 @@ public class StackStructure {
         System.out.println(item.getFoodName() + " added to the stack.");
     }
     
+    public FoodItem pop() {
+        
+        if (top == -1) {
+            System.out.println("Stack is empty. There is nothing to remove.");
+            return null;
+        }
+        
+        FoodItem removedItem = stack[top];
+        stack[top] = null;
+        top--;
+        
+        System.out.println(removedItem.getFoodName() + " was removed from the stack.");
+        
+        return removedItem;
+    }
+    
     
 }
