@@ -49,5 +49,15 @@ public class StackStructure {
         return removedItem;
     }
     
+    public FoodItem peek() {
+
+    if (top == -1) {
+        System.out.println("Stack is empty. There is nothing on the top.");
+        return null;
+    }
+
+    return stack[top];
+}
+    
     
 }
