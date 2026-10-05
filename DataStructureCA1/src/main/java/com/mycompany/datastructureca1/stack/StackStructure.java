@@ -24,9 +24,8 @@ public class StackStructure {
     
     public void push(FoodItem item) {
         
-        if (top == capacity - 1) {
-            System.out.println("Stack is full. Cannot add more food items.");
-            return;
+        if (isFull()) {
+            throw new IllegalStateException("Stack is full. Cannot add more food items.");
         // Adds food item to the top of the stack
         //In case the stack reaches the maximum capacity, the item can't be added.
         }
@@ -39,9 +38,8 @@ public class StackStructure {
     
     public FoodItem pop() {
         // This function deletes the last value added if the stack is empty, no item is removed.
-        if (top == -1) {
-            System.out.println("Stack is empty. There is nothing to remove.");
-            return null;
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty.");
         }
         
         FoodItem removedItem = stack[top];
@@ -55,13 +53,27 @@ public class StackStructure {
     
     public FoodItem peek() {
 // This function show the last value inserted
-    if (top == -1) {
-        System.out.println("Stack is empty. There is nothing on the top.");
-        return null;
+    if (isEmpty()) {
+        throw new IllegalStateException("Stack is empty.");
     }
 
     return stack[top];
 }
+    
+    public void display() {
+        
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty.");
+    
+            
+        }
+        System.out.println("\nFood items in the stack.");    
+        
+        for (int i = top; i >=0; i--) {
+            System.out.println(stack[i]);
+        }
+        
+    }
     
     public boolean isEmpty() {
     return top == -1;
