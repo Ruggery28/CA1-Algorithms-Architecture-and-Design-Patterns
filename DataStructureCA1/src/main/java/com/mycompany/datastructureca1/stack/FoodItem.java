@@ -18,6 +18,15 @@ public class FoodItem {
     //Best before to calculate the day it's going to expire
     private LocalDateTime timeAdded; 
     
+    //constructor to add the values inside the object
+    public FoodItem(String foodName, double weight, int dayExpire) {
+        this.foodName = foodName;
+        this.weight = weight;
+        //timeAdded will automatically add using the method LocalDataTime
+        this.timeAdded = LocalDateTime.now();
+        //bestBefore will calculate the time added + dayExpire
+        this.bestBeforeDate = timeAdded.plusDays(dayExpire);
+    }
     
     //Inserting getters to get a value indivudually    
 
