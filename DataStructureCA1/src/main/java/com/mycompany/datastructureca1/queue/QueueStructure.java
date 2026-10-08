@@ -4,6 +4,8 @@
  */
 package com.mycompany.datastructureca1.queue;
 
+import com.mycompany.datastructureca1.model.FoodItem;
+
 /**
  *
  * @author Ruggery

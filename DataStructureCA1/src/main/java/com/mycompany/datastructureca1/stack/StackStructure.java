@@ -4,6 +4,8 @@
  */
 package com.mycompany.datastructureca1.stack;
 
+import com.mycompany.datastructureca1.model.FoodItem;
+
 /**
  *
  * @author Gabriel

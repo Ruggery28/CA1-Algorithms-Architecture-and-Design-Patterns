@@ -3,8 +3,10 @@
  */
 package com.mycompany.datastructureca1;
 
-import com.mycompany.datastructureca1.stack.FoodItem;
+import com.mycompany.datastructureca1.queue.QueueStructure;
+import com.mycompany.datastructureca1.model.FoodItem;
 import com.mycompany.datastructureca1.stack.StackStructure;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -20,62 +22,109 @@ public class DataStructureCA1 {
         boolean isValid = false;
 
         while (!isValid) {
-            System.out.println("======== Data Structure Model ========");
-            System.out.println("Choose [1]: Stack || [2]: Queue");
+            //try {
+            System.out.println("============ Data Structure Model ============");
+            System.out.println("Choose [1]: Stack || [2]: Queue || [0]: Exit");
             int modelOption = sc.nextInt();
             sc.nextLine(); //clean the buffer
 
-            //
-            if (modelOption != 1 && modelOption != 2) {
-                System.out.println("Enter a valid option!!");
-                break;
+            if (modelOption == 0) {
+                isValid = true;
+                System.out.println("Ending program....");
+                return;
             }
 
-            if (modelOption == 1) {
-                StackStructure stack = new StackStructure();
-                boolean validator = true;
-                while (validator) {
-                    getMenu();
-                    System.out.printf("Enter your option: ");
-                    String option = sc.nextLine();
+            if (modelOption == 1 || modelOption == 2) {
+                //method that was created to execute the switch and cases
+                switchMenu(modelOption);
+            }
 
-                    switch (option) {
-                        case "1": {
-                            System.out.println("Food Options: [Burger, Pizza, Fries, Sandwich, and Hotdog]");
-                            System.out.printf("Enter Food Name: ");
-                            String foodName = sc.nextLine();
-                            System.out.printf("Enter the weight in grams: ");
-                            double weight = sc.nextDouble();
-                            sc.nextLine();
-                            FoodItem foodItem = new FoodItem(foodName, weight, 14);
+            System.out.println("Enter a valid option!!");
+//            } catch (InputMismatchException e) {
+//                System.out.println("Error: " + e.getMessage());
+//            }
+        }
+        sc.close();
+    }
+
+    //method to execute all the commands inside the Stack
+    private static void switchMenu(int modelOption) {
+
+        //instantianse the Model Structure classes
+        StackStructure stack = new StackStructure();
+        QueueStructure queue = new QueueStructure();
+
+        try {
+            boolean validator = true;
+            while (validator) {
+                getMenu();
+                System.out.printf("Enter your option: ");
+                String option = sc.nextLine();
+                //Switch and case to execute the methods according with the user
+                switch (option) {
+                    case "1": {
+                        System.out.println("Food Options: [Burger, Pizza, Fries, Sandwich, and Hotdog]");
+                        System.out.printf("Enter Food Name: ");
+                        String foodName = sc.nextLine();
+                        System.out.printf("Enter the weight in grams: ");
+                        double weight = sc.nextDouble();
+                        sc.nextLine();
+                        //Instantianting the object foodItem 
+                        FoodItem foodItem = new FoodItem(foodName, weight, 14);
+                        //Inserting the foodItem according to the model that has been chosen
+                        if (modelOption == 1) {
                             stack.push(foodItem);
-                            break;
                         }
-                        case "2": {
+                        if (modelOption == 2) {
+                            queue.enqueue(foodItem);
+                        }
+                        break;
+                    }
+                    case "2": {
+                        //Deliting the foodItem according to the model that has been chosen(LIFO,FIFO)
+                        if (modelOption == 1) {
                             stack.pop();
-                            break;
                         }
-                        case "3": {
-                            stack.peek();
+                        if (modelOption == 2) {
+                            queue.dequeue();
                         }
-                        case "4": {
+                        break;
+                    }
+                    case "3": {
+                        //Peeking the foodItem according to the model that has been chosen(LIFO,FIFO)
+                        if (modelOption == 1) {
+                            System.out.println(stack.peek());
+                        }
+                        if (modelOption == 2) {
+                            System.out.println(queue.peek());
+                        }
+                        break;
+                    }
+                    case "4": {
+                        //Deleting the foodItem according to the model that has been chosen(LIFO,FIFO)
+                        if (modelOption == 1) {
                             stack.display();
-                            break;
                         }
-                        case "5": {
-                            validator = false;
+                        if (modelOption == 2) {
+                            queue.display();
                         }
-                        default: {
-                            System.out.println("Enter a valid option!");
-                        }
+                        break;
+                    }
+                    case "5": {
+                        validator = false;
+                        break;
+                    }
+                    default: {
+                        System.out.println("Enter a valid option!");
                     }
                 }
             }
-
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
     }
 
+    //method to print all the options
     private static void getMenu() {
         System.out.println("========= Menu =========");
         System.out.println("[1] Add a new Food: ");
