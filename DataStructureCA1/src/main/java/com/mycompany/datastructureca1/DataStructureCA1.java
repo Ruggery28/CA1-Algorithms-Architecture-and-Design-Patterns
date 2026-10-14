@@ -6,6 +6,7 @@ package com.mycompany.datastructureca1;
 import com.mycompany.datastructureca1.queue.QueueStructure;
 import com.mycompany.datastructureca1.model.FoodItem;
 import com.mycompany.datastructureca1.stack.StackStructure;
+import com.mycompany.datastructureca1.validation.Validation;
 import java.util.Scanner;
 
 /**
@@ -69,17 +70,14 @@ public class DataStructureCA1 {
                 switch (option) {
                     case "1": {
                         //returning the value inside the method 
-                        String foodName = validFood();
-                        System.out.printf("Enter the weight in grams: ");
-                        double weight = sc.nextDouble();
-                        sc.nextLine();
+                        String foodName = Validation.validFood();
+                        double weightGrams = Validation.validWeight();
                         //Instantianting the object foodItem 
-                        FoodItem foodItem = new FoodItem(foodName, weight, 14);
+                        FoodItem foodItem = new FoodItem(foodName, weightGrams, 14);
                         //Inserting the foodItem according to the model that has been chosen
                         if (modelOption == 1) {
                             stack.push(foodItem);
-                        }
-                        if (modelOption == 2) {
+                        } else {
                             queue.enqueue(foodItem);
                         }
                         break;
@@ -88,8 +86,7 @@ public class DataStructureCA1 {
                         //Deliting the foodItem according to the model that has been chosen(LIFO,FIFO)
                         if (modelOption == 1) {
                             stack.pop();
-                        }
-                        if (modelOption == 2) {
+                        } else {
                             queue.dequeue();
                         }
                         break;
@@ -98,8 +95,7 @@ public class DataStructureCA1 {
                         //Peeking the foodItem according to the model that has been chosen(LIFO,FIFO)
                         if (modelOption == 1) {
                             System.out.println(stack.peek());
-                        }
-                        if (modelOption == 2) {
+                        } else {
                             System.out.println(queue.peek());
                         }
                         break;
@@ -108,8 +104,7 @@ public class DataStructureCA1 {
                         //Deleting the foodItem according to the model that has been chosen(LIFO,FIFO)
                         if (modelOption == 1) {
                             stack.display();
-                        }
-                        if (modelOption == 2) {
+                        } else {
                             queue.display();
                         }
                         break;
@@ -138,38 +133,4 @@ public class DataStructureCA1 {
         System.out.println("[5] Exit the program: ");
     }
 
-    //method to check if the user entered the right valid food option
-    private static String validFood() {
-        boolean validaton = true;
-        String[] foodOption = {"Burger", "Pizza", "Fries", "Sandwich", "Hotdog"};
-        String foodName = ""; //empty string that will be returned
-
-        //while validation till the user enter one of the options.
-        while (validaton) {
-            System.out.println("Food Options: [Burger, Pizza, Fries, Sandwich, and Hotdog]");
-            System.out.printf("Enter Food Name: ");
-            foodName = sc.nextLine();
-
-            //check first if the user enter a string
-            if (foodName.matches("[a-zA-Z]+")) {
-                //for loop to go inside the array and check one by one
-                for (String option : foodOption) {
-                    if (option.equalsIgnoreCase(foodName)) {
-                        validaton = false;
-                        break;
-                    }
-                }
-                //if validation is still true it means the user has entered an invalid option
-                if (validaton) {
-                    System.out.println("Enter one of the valid food option!");
-                }
-
-            } else {
-                System.out.println("Enter a valid String!");
-            }
-
-        }
-        //return the valid food in upperCase
-        return foodName.toUpperCase();
-    }
 }
