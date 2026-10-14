@@ -6,7 +6,6 @@ package com.mycompany.datastructureca1;
 import com.mycompany.datastructureca1.queue.QueueStructure;
 import com.mycompany.datastructureca1.model.FoodItem;
 import com.mycompany.datastructureca1.stack.StackStructure;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -25,24 +24,30 @@ public class DataStructureCA1 {
             //try {
             System.out.println("============ Data Structure Model ============");
             System.out.println("Choose [1]: Stack || [2]: Queue || [0]: Exit");
-            int modelOption = sc.nextInt();
-            sc.nextLine(); //clean the buffer
+            System.out.print("Enter your option: ");
 
-            if (modelOption == 0) {
-                isValid = true;
-                System.out.println("Ending program....");
-                return;
+            //checking if the user is entering a number. if not print a invalid message and ask again.
+            if (sc.hasNextInt()) {
+                int modelOption = sc.nextInt();
+                sc.nextLine(); //clean the buffer
+
+                //if option is equal to 0 exit the program
+                if (modelOption == 0) {
+                    isValid = true;
+                    System.out.println("Ending program....");
+                    return;
+                    //if option is equal to 1 or 2 enter the method switchMenu
+                } else if (modelOption == 1 || modelOption == 2) {
+                    //method that was created to execute the switch and cases
+                    switchMenu(modelOption);
+                } else {
+                    System.out.println("Option not valid, enter again!");
+                }
+
+            } else {
+                System.out.println("Enter a valid option! Try it again..");
+                sc.nextLine(); //cleaning the buffer not to become an infinite loop
             }
-
-            if (modelOption == 1 || modelOption == 2) {
-                //method that was created to execute the switch and cases
-                switchMenu(modelOption);
-            }
-
-            System.out.println("Enter a valid option!!");
-//            } catch (InputMismatchException e) {
-//                System.out.println("Error: " + e.getMessage());
-//            }
         }
         sc.close();
     }
@@ -54,18 +59,17 @@ public class DataStructureCA1 {
         StackStructure stack = new StackStructure();
         QueueStructure queue = new QueueStructure();
 
-        try {
-            boolean validator = true;
-            while (validator) {
-                getMenu();
-                System.out.printf("Enter your option: ");
-                String option = sc.nextLine();
-                //Switch and case to execute the methods according with the user
+        boolean validator = true;
+        while (validator) {
+            getMenu();
+            System.out.printf("Enter your option: ");
+            String option = sc.nextLine();
+            //Switch and case to execute the methods according with the user
+            try {
                 switch (option) {
                     case "1": {
-                        System.out.println("Food Options: [Burger, Pizza, Fries, Sandwich, and Hotdog]");
-                        System.out.printf("Enter Food Name: ");
-                        String foodName = sc.nextLine();
+                        //returning the value inside the method 
+                        String foodName = validFood();
                         System.out.printf("Enter the weight in grams: ");
                         double weight = sc.nextDouble();
                         sc.nextLine();
@@ -118,13 +122,13 @@ public class DataStructureCA1 {
                         System.out.println("Enter a valid option!");
                     }
                 }
+            } catch (IllegalStateException e) {
+                System.out.println("Error: " + e.getMessage());
             }
-        } catch (IllegalStateException e) {
-            System.out.println("Error: " + e.getMessage());
         }
     }
-
     //method to print all the options
+
     private static void getMenu() {
         System.out.println("========= Menu =========");
         System.out.println("[1] Add a new Food: ");
@@ -134,4 +138,38 @@ public class DataStructureCA1 {
         System.out.println("[5] Exit the program: ");
     }
 
+    //method to check if the user entered the right valid food option
+    private static String validFood() {
+        boolean validaton = true;
+        String[] foodOption = {"Burger", "Pizza", "Fries", "Sandwich", "Hotdog"};
+        String foodName = ""; //empty string that will be returned
+
+        //while validation till the user enter one of the options.
+        while (validaton) {
+            System.out.println("Food Options: [Burger, Pizza, Fries, Sandwich, and Hotdog]");
+            System.out.printf("Enter Food Name: ");
+            foodName = sc.nextLine();
+
+            //check first if the user enter a string
+            if (foodName.matches("[a-zA-Z]+")) {
+                //for loop to go inside the array and check one by one
+                for (String option : foodOption) {
+                    if (option.equalsIgnoreCase(foodName)) {
+                        validaton = false;
+                        break;
+                    }
+                }
+                //if validation is still true it means the user has entered an invalid option
+                if (validaton) {
+                    System.out.println("Enter one of the valid food option!");
+                }
+
+            } else {
+                System.out.println("Enter a valid String!");
+            }
+
+        }
+        //return the valid food in upperCase
+        return foodName.toUpperCase();
+    }
 }
